@@ -26,12 +26,14 @@ namespace Mani
 
 	protected:
 		virtual void onInitialize(EntityRegistry& registry, SystemContainer& systemContainer) override;
-		
+
 	private:
 		std::weak_ptr<OpenGLResourceSystem> m_resourceSystem;
 		std::weak_ptr<CameraSystem> m_cameraSystem;
 
-		glm::vec4 m_clearColor = glm::vec4(.1f, .1f, .1f, 1.f);
+		glm::vec4 m_clearColor = glm::vec4(.1f, .1f, .1f, .1f);
+
+		void drawSpriteComponent(EntityRegistry& registry, const EntityId entityId, glm::mat4& viewMatrix, glm::mat4& projectionMatrix);
 	};
 }
 

@@ -1,0 +1,5 @@
+{
+    "name": "Minion_Eye",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/Minions/Minion_Eye.png"
+}

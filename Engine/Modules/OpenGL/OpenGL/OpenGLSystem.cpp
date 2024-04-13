@@ -140,7 +140,7 @@ void OpenGLSystem::onInitialize(EntityRegistry& registry, SystemContainer& syste
 
     // set the view port to the window's size.
     glViewport(0, 0, m_context.width, m_context.height);
-    
+
 #ifndef MANI_WEBGL
     #if MANI_OPENGL_DEBUG
         glEnable(GL_DEBUG_OUTPUT);
@@ -162,6 +162,9 @@ void OpenGLSystem::onDeinitialize(EntityRegistry& entityRegistry)
 
 void OpenGLSystem::tick(float deltaTime, EntityRegistry& entityRegistry)
 {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDepthFunc(GL_LESS);
     glfwSwapBuffers(m_context.window);
     glfwPollEvents();
 

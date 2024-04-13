@@ -7,10 +7,12 @@
 #include <OpenGL/Render/OpenGLTexture.h>
 #include <OpenGL/Render/OpenGLShader.h>
 #include <OpenGL/Render/OpenGLMaterial.h>
+#include <OpenGL/Render/OpenGLSprite.h>
 
 #include <RenderAPI/Mesh.h>
 #include <RenderAPI/Material.h>
 #include <RenderAPI/Shader.h>
+#include <RenderAPI/Sprite.h>
 
 using namespace Mani;
 
@@ -26,6 +28,38 @@ void OpenGLResourceSystem::onInitialize(EntityRegistry& registry, SystemContaine
 	{
 		std::shared_ptr<AssetSystem> assetSystem = m_assetSystem.lock();
 		onAssetLoadedHandle = assetSystem->onJsonAssetLoaded.subscribe(std::bind(&OpenGLResourceSystem::onJsonAssetLoaded, this, std::placeholders::_1));
+	}
+	
+	// initialize a hardcoded 2d quad for sprite rendering
+	{
+		// hardcoded 2d quad
+		std::vector<float> vertices =
+		{
+			//    vertex			// texture
+			0.0f, 0.0f, 1.0f,		0.0f, 1.0f,
+			1.0f, 0.0f, 0.0f,		1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,		0.0f, 0.0f,
+
+			0.0f, 0.0f, 1.0f,		0.0f, 1.0f,
+			1.0f, 0.0f, 1.0f,		1.0f, 1.0f,
+			1.0f, 0.0f, 0.0f,		1.0f, 0.0f,
+		};
+
+		std::shared_ptr<OpenGLVertexBuffer> vertexBuffer = std::make_shared<OpenGLVertexBuffer>(&vertices[0], (int)(sizeof(float) * vertices.size()));
+		vertexBuffer->layout =
+		{
+			{ ShaderDataType::Float3, false },
+			{ ShaderDataType::Float2, false }
+		};
+
+		std::shared_ptr<OpenGLVertexArray> vertexArray = std::make_shared<OpenGLVertexArray>();
+		vertexArray->addVertexBuffer(vertexBuffer);
+		
+		std::vector<unsigned int> indices = { 0, 1, 2, 3, 4, 5 };
+		std::shared_ptr<OpenGLIndexBuffer> indexBuffer = std::make_shared<OpenGLIndexBuffer>(&indices[0], (int)sizeof(uint32_t) * indices.size());
+		vertexArray->setIndexBuffer(indexBuffer);
+
+		m_vertexArrays[QUAD_2D_NAME] = vertexArray;
 	}
 }
 
@@ -56,6 +90,11 @@ const std::shared_ptr<OpenGLMaterial>& OpenGLResourceSystem::getMaterial(const s
 const std::shared_ptr<OpenGLShader>& OpenGLResourceSystem::getShader(const std::string& name)
 {
 	return m_shaders[name];
+}
+
+const std::shared_ptr<OpenGLSprite>& OpenGLResourceSystem::getSprite(const std::string& name)
+{
+	return m_sprites[name];
 }
 
 void OpenGLResourceSystem::onMeshLoaded(const std::shared_ptr<Mesh>& mesh)
@@ -116,16 +155,7 @@ void OpenGLResourceSystem::onMaterialLoaded(const std::shared_ptr<Material>& mat
 	// shader
 	if (!material->shaderPath.empty())
 	{
-		const std::string shaderName = material->shaderPath.stem().string();
-		openGLMaterial->shader = shaderName;
-
-		if (!m_shaders.contains(shaderName) && !m_assetSystem.expired())
-		{
-			// make sure we load the shader
-			std::shared_ptr<AssetSystem> assetSystem = m_assetSystem.lock();
-			std::shared_ptr<Shader> shader = assetSystem->loadJsonAsset<Shader>(material->shaderPath);
-			onShaderLoaded(shader);
-		}
+		openGLMaterial->shader = getOrAddShaderName(material->shaderPath);
 	}
 
 	// diffuse
@@ -141,6 +171,31 @@ void OpenGLResourceSystem::onMaterialLoaded(const std::shared_ptr<Material>& mat
 	}
 
 	m_materials[openGLMaterial->name] = openGLMaterial;
+}
+
+void Mani::OpenGLResourceSystem::onSpriteLoaded(const std::shared_ptr<Sprite>& sprite)
+{
+	if (sprite == nullptr)
+	{
+		MANI_LOG_ERROR(LogOpenGL, "Received a null sprite");
+		return;
+	}
+
+	std::shared_ptr<OpenGLSprite> openGLSprite = std::make_shared<OpenGLSprite>();
+	openGLSprite->name = sprite->name;
+	openGLSprite->vertexArrayName = QUAD_2D_NAME;
+
+	if (!sprite->shaderPath.empty())
+	{
+		openGLSprite->shaderName = getOrAddShaderName(sprite->shaderPath);
+	}
+
+	if (!sprite->spritePath.empty())
+	{
+		openGLSprite->textureName = getOrAddTextureName(sprite->spritePath);
+	}
+
+	m_sprites[openGLSprite->name] = openGLSprite;
 }
 
 const std::string OpenGLResourceSystem::getOrAddTextureName(const std::filesystem::path& originalPath)
@@ -159,6 +214,20 @@ const std::string OpenGLResourceSystem::getOrAddTextureName(const std::filesyste
 	}
 
 	return textureName;
+}
+
+const std::string Mani::OpenGLResourceSystem::getOrAddShaderName(const std::filesystem::path& path)
+{
+	const std::string shaderName = path.stem().string();
+	if (!m_shaders.contains(shaderName) && !m_assetSystem.expired())
+	{
+		// make sure we load the shader
+		std::shared_ptr<AssetSystem> assetSystem = m_assetSystem.lock();
+		std::shared_ptr<Shader> shader = assetSystem->loadJsonAsset<Shader>(path);
+		onShaderLoaded(shader);
+	}
+
+	return shaderName;
 }
 
 void OpenGLResourceSystem::onShaderLoaded(const std::shared_ptr<Shader>& shaderAsset)
@@ -185,5 +254,9 @@ void OpenGLResourceSystem::onJsonAssetLoaded(const std::shared_ptr<IJsonAsset>& 
 	else if (const auto& material = std::dynamic_pointer_cast<Material>(jsonAsset))
 	{
 		onMaterialLoaded(material);
+	}
+	else if (const auto& sprite = std::dynamic_pointer_cast<Sprite>(jsonAsset))
+	{
+		onSpriteLoaded(sprite);
 	}
 }

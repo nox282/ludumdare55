@@ -17,9 +17,14 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string_view& path)
 {
     //stbi_set_flip_vertically_on_load(1);
    
-    stbi_uc* imageData = stbi_load(path.data(), &m_width, &m_height, &m_channels, 0);
+    int width = 0;
+    int height = 0;
+    stbi_uc* imageData = stbi_load(path.data(), &width, &height, &m_channels, 0);
     if (imageData != nullptr)
     {
+        m_width = width;
+        m_height = height;
+
         GLenum internalFormat;
         GLenum imageDataFormat;
         switch (m_channels)

@@ -5,15 +5,17 @@ workspace "Mani"
 
 configurations { "Debug", "Release", "Distribution" }
     platforms { "Win64", "MacOSX", "WebGL" }
-    startproject "Sandbox"
+    startproject "Ludumdare55"
     language "C++"
     cppdialect "C++20"
     flags { "MultiProcessorCompile" }
     targetdir ("bin/" .. outputdir)
     objdir ("bin-int/" .. outputdir)
 
+    
     --glm
     includedirs { thirdpartiesdir .. "/glm" }
+    defines { "GLM_ENABLE_EXPERIMENTAL" }
     --json
     includedirs { thirdpartiesdir .. "/json/include"}
     --physx
@@ -59,13 +61,13 @@ group "Engine"
 
 group ""
 -- Executables
-project "Sandbox"
+project "Ludumdare55"
     kind "ConsoleApp"
     location "%{prj.name}"
 
     files { "%{prj.name}/**.h", "%{prj.name}/**.cpp" }
 
-    links { "Core", "OpenGL", "ECS", "Camera", "FloatingCamera", "Assets", "RenderAPI", "PhysX", "Inputs" }
+    links { "Core", "OpenGL", "ECS", "Camera", "FloatingCamera", "Assets", "RenderAPI", "Inputs" }
 
-    includedirs { moduledir .. "/**", "/%{prj.name}/Sources/" }
+    includedirs { moduledir .. "/**", "%{prj.name}/Source" }
 
