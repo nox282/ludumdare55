@@ -319,7 +319,20 @@ void OpenGLRenderSystem::tick(float deltaTime, EntityRegistry& registry)
 
 		shader->use();
 
-		glm::mat4 modelMatrix = transform.calculateModelMatrix();
+		Transform scaledTransform = transform;
+		const float width = static_cast<float>(texture->getWidth());
+		const float height = static_cast<float>(texture->getHeight());
+		MANI_ASSERT(width > 0.f && height > 0.f, "do not divide by zero");
+		if (width > height)
+		{
+			scaledTransform.scale.z *= height / width;
+		}
+		else
+		{
+			scaledTransform.scale.x *= width / height;
+		}
+
+		glm::mat4 modelMatrix = scaledTransform.calculateModelMatrix();
 
 		shader->setFloatMatrix4("model", glm::value_ptr(modelMatrix));
 		shader->setFloatMatrix4("view", glm::value_ptr(viewMatrix));

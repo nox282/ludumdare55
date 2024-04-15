@@ -3,8 +3,14 @@
 #include <Utils/MathUtils.h>
 
 #include <Minion/AIBehaviorSystem.h>
+#include <SpatialGridSystem.h>
 
 using namespace Mani;
+
+void MovementSystem::onInitialize(Mani::EntityRegistry& registry, Mani::SystemContainer& systemContainer)
+{
+	m_spatialGrid = systemContainer.initializeDependency<SpatialGridSystem>();
+}
 
 void MovementSystem::tick(float deltaTime, EntityRegistry& registry)
 {
@@ -20,9 +26,12 @@ void MovementSystem::tick(float deltaTime, EntityRegistry& registry)
 			desiredVelocity = MathUtils::normalize(behaviorComponent->desiredVelocity);
 		}
 
-		const glm::vec3 coherence = MathUtils::normalize(doCoherence(registry, minionEntityId, transform, movementComponent));
-		const glm::vec3 separation = MathUtils::normalize(doSeparation(registry, minionEntityId, transform, movementComponent));
-		const glm::vec3 alignement = MathUtils::normalize(doAlignement(registry, minionEntityId, transform, movementComponent));
+		const glm::vec3 coherence = movementComponent.coherenceRatio <= FLT_EPSILON ? glm::vec3(0.f) :
+			MathUtils::normalize(doCoherence(registry, minionEntityId, transform, movementComponent));
+		const glm::vec3 separation = movementComponent.seperationRatio <= FLT_EPSILON ? glm::vec3(0.f) :
+			MathUtils::normalize(doSeparation(registry, minionEntityId, transform, movementComponent));
+		const glm::vec3 alignement = movementComponent.alignementRatio <= FLT_EPSILON ? glm::vec3(0.f) :
+			MathUtils::normalize(doAlignement(registry, minionEntityId, transform, movementComponent));
 
 		glm::vec3 acceleration = desiredVelocity +
 			(coherence * movementComponent.coherenceRatio) + 
@@ -36,83 +45,95 @@ void MovementSystem::tick(float deltaTime, EntityRegistry& registry)
 	}
 }
 
-glm::vec3 MovementSystem::doCoherence(EntityRegistry& registry, const EntityId entityId, const Transform& transform, const MovementComponent& movementComponent)
+glm::vec3 MovementSystem::doCoherence(EntityRegistry& registry, const EntityId entityId, const Transform& transform, const MovementComponent& movementComponent) const
 {
 	uint32_t entityInCoherenceCount = 0;
 	glm::vec3 coherence(0.f);
-	RegistryView<Transform, MovementComponent> agentView(registry);
-	for (const EntityId minionEntityId : agentView)
-	{
-		if (minionEntityId == entityId)
+	if (!m_spatialGrid.expired())
+	{ 
+		std::shared_ptr<SpatialGridSystem> spatialGridSystem = m_spatialGrid.lock();
+		std::unordered_set<EntityId> nearbyEntities;
+		spatialGridSystem->findNearby(transform.position, glm::vec2(movementComponent.coherenceRadius), nearbyEntities);
+		for (const EntityId otherEntityId : nearbyEntities)
 		{
-			continue;
+			if (otherEntityId == entityId || !registry.hasComponent<MovementComponent>(otherEntityId))
+			{
+				continue;
+			}
+
+			const Transform* otherTransform = registry.getComponent<Transform>(otherEntityId);
+			if (glm::distance2(transform.position, otherTransform->position) < movementComponent.coherenceRadius * movementComponent.coherenceRadius)
+			{
+				entityInCoherenceCount++;
+				coherence += otherTransform->position;
+			}
 		}
 
-		const Transform* otherTransform = registry.getComponent<Transform>(minionEntityId);
-
-		if (glm::distance2(transform.position, otherTransform->position) < movementComponent.coherenceRadius * movementComponent.coherenceRadius)
+		if (entityInCoherenceCount > 0)
 		{
-			entityInCoherenceCount++;
-			coherence += otherTransform->position;
+			coherence /= static_cast<float>(entityInCoherenceCount);
 		}
-	}
-
-	if (entityInCoherenceCount > 0)
-	{
-		coherence /= static_cast<float>(entityInCoherenceCount);
 	}
 
 	return coherence;
 }
 
-glm::vec3 MovementSystem::doSeparation(EntityRegistry& registry, const EntityId entityId, const Transform& transform, const MovementComponent& movementComponent)
+glm::vec3 MovementSystem::doSeparation(EntityRegistry& registry, const EntityId entityId, const Transform& transform, const MovementComponent& movementComponent) const
 {
 	glm::vec3 separation(0.f);
-	RegistryView<Transform, AvoidanceSourceComponent> agentView(registry);
-	for (const EntityId minionEntityId : agentView)
+	if (!m_spatialGrid.expired())
 	{
-		if (minionEntityId == entityId)
+		std::shared_ptr<SpatialGridSystem> spatialGridSystem = m_spatialGrid.lock();
+		std::unordered_set<EntityId> nearbyEntities;
+		spatialGridSystem->findNearby(transform.position, glm::vec2(movementComponent.seperationRadius), nearbyEntities);
+		for (const EntityId otherEntityId : nearbyEntities)
 		{
-			continue;
-		}
+			if (otherEntityId == entityId || !registry.hasComponent<AvoidanceSourceComponent>(otherEntityId))
+			{
+				continue;
+			}
 
-		const Transform* otherTransform = registry.getComponent<Transform>(minionEntityId);
+			const Transform* otherTransform = registry.getComponent<Transform>(otherEntityId);
 
-		if (glm::distance2(transform.position, otherTransform->position) < movementComponent.seperationRadius * movementComponent.seperationRadius)
-		{
-			const glm::vec3 delta = transform.position - otherTransform->position;
-			separation = delta - separation;
+			if (glm::distance2(transform.position, otherTransform->position) < movementComponent.seperationRadius * movementComponent.seperationRadius)
+			{
+				const glm::vec3 delta = transform.position - otherTransform->position;
+				separation = delta - separation;
+			}
 		}
 	}
-
 	return separation;
 }
 
-glm::vec3 MovementSystem::doAlignement(EntityRegistry& registry, const EntityId entityId, const Transform& transform, const MovementComponent& movementComponent)
+glm::vec3 MovementSystem::doAlignement(EntityRegistry& registry, const EntityId entityId, const Transform& transform, const MovementComponent& movementComponent) const
 {
 	uint32_t entityCount = 0;
 	glm::vec3 alignement(0.f);
-
-	RegistryView<Transform, MovementComponent> agentView(registry);
-	for (const EntityId minionEntityId : agentView)
+	if (!m_spatialGrid.expired())
 	{
-		if (minionEntityId == entityId)
+		std::shared_ptr<SpatialGridSystem> spatialGridSystem = m_spatialGrid.lock();
+		std::unordered_set<EntityId> nearbyEntities;
+		spatialGridSystem->findNearby(transform.position, glm::vec2(movementComponent.alignementRadius), nearbyEntities);
+		for (const EntityId otherEntityId : nearbyEntities)
 		{
-			continue;
+			if (otherEntityId == entityId || !registry.hasComponent<MovementComponent>(otherEntityId))
+			{
+				continue;
+			}
+
+			const Transform* otherTransform = registry.getComponent<Transform>(otherEntityId);
+
+			entityCount++;
+			if (glm::distance2(transform.position, otherTransform->position) < movementComponent.alignementRadius * movementComponent.alignementRadius)
+			{
+				alignement += otherTransform->position;
+			}
 		}
 
-		const Transform* otherTransform = registry.getComponent<Transform>(minionEntityId);
-
-		entityCount++;
-		if (glm::distance2(transform.position, otherTransform->position) < movementComponent.alignementRadius * movementComponent.alignementRadius)
+		if (entityCount > 0)
 		{
-			alignement += otherTransform->position;
+			alignement /= static_cast<float>(entityCount);
 		}
-	}
-
-	if (entityCount > 0)
-	{
-		alignement /= static_cast<float>(entityCount);
 	}
 
 	return alignement;

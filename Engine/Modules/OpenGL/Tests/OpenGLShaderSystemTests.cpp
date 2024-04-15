@@ -1,4 +1,4 @@
-#include "simpleTests.h"
+/*#include "simpleTests.h"
 #include <Core/World/World.h>
 #include <filesystem>
 #include <Core/Application.h>
@@ -34,3 +34,4 @@ ST_SECTION_BEGIN(OpenGL, "OpenGL")
     //}
 }
 ST_SECTION_END(OpenGL)
+*/

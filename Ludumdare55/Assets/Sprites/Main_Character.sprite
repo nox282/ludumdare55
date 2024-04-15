@@ -1,5 +1,0 @@
-{
-    "name": "Main_Character",
-    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
-    "spritePath": "Ludumdare55/Assets/Textures/Player/Character_Nox.png"
-}

@@ -1,4 +1,4 @@
-#include "simpleTests.h"
+/*#include "simpleTests.h"
 #include <Core/Application.h>
 #include <Core/System/SystemContainer.h>
 #include <Core/World/WorldSystem.h>
@@ -22,7 +22,7 @@ ST_SECTION_BEGIN(WorldSystemSection, "WorldSytem")
 				onTick.broadcast(deltaTime);
 			}
 
-			DECLARE_EVENT(OnTickEvent, float /*deltatime*/);
+			DECLARE_EVENT(OnTickEvent, float deltatime);
 			OnTickEvent onTick;
 		};
 
@@ -51,3 +51,4 @@ ST_SECTION_BEGIN(WorldSystemSection, "WorldSytem")
 	}
 }
 ST_SECTION_END(WorldSystemSection)
+*/

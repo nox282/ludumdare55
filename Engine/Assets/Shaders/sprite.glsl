@@ -28,5 +28,11 @@ out vec4 FragColor;
 
 void main()
 {
-    FragColor = color * texture(sprite, textureCoordinate);
+    vec4 textureColor = texture(sprite, textureCoordinate);
+    if (textureColor.w < .01)
+    {
+        discard;
+    }
+
+    FragColor = color * textureColor;
 }

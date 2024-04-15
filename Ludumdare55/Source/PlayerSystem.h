@@ -20,6 +20,7 @@ public:
 	virtual bool shouldTick(Mani::EntityRegistry& registry) const override { return true; }
 
 	static Mani::EntityId PLAYER_ENTITY_ID;
+	static const uint8_t MINION_CAP;
 protected:
 	virtual void onInitialize(Mani::EntityRegistry& registry, Mani::SystemContainer& systemContainer) override;
 	virtual void onDeinitialize(Mani::EntityRegistry& registry) override;

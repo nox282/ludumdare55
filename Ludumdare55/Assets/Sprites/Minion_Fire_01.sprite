@@ -1,0 +1,5 @@
+{
+    "name": "Minion_Fire_01",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/Sprites/Fire/Minion_Fire_01.png"
+}

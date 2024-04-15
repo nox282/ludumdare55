@@ -15,5 +15,5 @@ protected:
 
 private:
 	const float Y_OFFSET = 50.f;
-	const float CAMERA_SPEED = 5.f;
+	const float CAMERA_SPEED = 8.f;
 };

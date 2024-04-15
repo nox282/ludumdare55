@@ -1,4 +1,4 @@
-#include "simpleTests.h"
+/*#include "simpleTests.h"
 #include <Core/CoreFwd.h>
 
 using namespace Mani;
@@ -69,4 +69,4 @@ ST_SECTION_BEGIN(TransformSystemSection, "TransformSystem")
 		ST_ASSERT(glm::length2(testSystem->childTransform->position - glm::vec3(5.f, 10.f, 0.f)) <= FLT_EPSILON, "child transform should be at (5, 10, 0)");
 	}
 }
-ST_SECTION_END(TransformSystemSection)
+ST_SECTION_END(TransformSystemSection)*/

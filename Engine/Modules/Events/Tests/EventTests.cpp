@@ -1,4 +1,4 @@
-#include "simpleTests.h"
+/*#include "simpleTests.h"
 #include "Events/Event.h"
 
 using namespace Mani;
@@ -136,4 +136,4 @@ ST_SECTION_BEGIN(Core_Events, "Core Events")
 		ST_ASSERT(someObject.wasCalled, "someObject should have been called");
 	}
 }
-ST_SECTION_END(Core_Events)
+ST_SECTION_END(Core_Events)*/

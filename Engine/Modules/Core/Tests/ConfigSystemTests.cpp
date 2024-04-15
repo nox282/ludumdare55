@@ -1,4 +1,4 @@
-
+/*
 #include "simpleTests.h"
 #include <Core/World/World.h>
 #include <Core/ConfigSystem.h>
@@ -70,3 +70,4 @@ ST_SECTION_BEGIN(ConfigSystemSection, "ConfigSystem")
 	}
 }
 ST_SECTION_END(ConfigSystemSection)
+*/

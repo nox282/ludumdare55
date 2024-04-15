@@ -1,0 +1,5 @@
+{
+    "name": "Enemy_Hand_01",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/Sprites/Hand/Enemy_Hand_01.png"
+}

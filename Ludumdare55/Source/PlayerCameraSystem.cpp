@@ -48,7 +48,7 @@ void PlayerCameraSystem::tick(float deltaTime, EntityRegistry& registry)
 
 	const glm::vec3 target = playerTransform->position + glm::vec3(0.f, 1.f, 0.f) * Y_OFFSET;
 	const glm::vec3 delta = target - cameraTransform->position;
-	if (glm::length2(delta) <= FLT_EPSILON)
+	if (glm::length2(delta) <= 1.0f)
 	{
 		return;
 	}

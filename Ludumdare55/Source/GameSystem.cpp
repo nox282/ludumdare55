@@ -10,6 +10,24 @@
 #include <RenderAPI/MeshComponent.h>
 #include <RenderAPI/Light/DirectionalLightComponent.h>
 
+#include <PlayerSystem.h>
+#include <PlayerCameraSystem.h>
+#include <CollisionSystem.h>
+
+#include <Minion/AIBehaviorSystem.h>
+#include <Minion/MovementSystem.h>
+#include <Minion/MinionSpawnSystem.h>
+#include <Minion/AggroSystem.h>
+
+#include <Attack/AttackSystem.h>
+#include <Attack/HealthSystem.h>
+
+#include <ColorSystem.h>
+#include <VFXSystem.h>
+
+#include <GameFlow/NeutralSpawnerSystem.h>
+#include <SpatialGridSystem.h>
+
 using namespace Mani;
 
 void GameSystem::onInitialize(EntityRegistry& registry, SystemContainer& systemContainer)
@@ -71,6 +89,19 @@ void GameSystem::onInitialize(EntityRegistry& registry, SystemContainer& systemC
 		meshComponent->mesh = assetSystem->loadJsonAsset<Mesh>("Ludumdare55/Assets/Meshes/Cube.mesh");
 		meshComponent->material = assetSystem->loadJsonAsset<Material>("Ludumdare55/Assets/Materials/floor.material");
 	}
+
+	systemContainer.createSystem<PlayerSystem>()
+		.createSystem<PlayerCameraSystem>()
+		.createSystem<AIBehaviorSystem>()
+		.createSystem<MovementSystem>()
+		.createSystem<MinionSpawnSystem>()
+		.createSystem<CollisionSystem>()
+		.createSystem<AggroSystem>()
+		.createSystem<AttackSystem>()
+		.createSystem<HealthSystem>()
+		.createSystem<ColorSystem>()
+		.createSystem<NeutralSpawnerSystem>()
+		.createSystem<SpatialGridSystem>();
 }
 
 void GameSystem::onDeinitialize(EntityRegistry& registry)

@@ -17,8 +17,8 @@ namespace Mani
 		float fov = 45.f;
 		float nearClipPlane = .1f;
 		float farClipPlane = 10'000.f;
-		float width = 800.f;
-		float height = 800.f;
+		float width = 1920.f;
+		float height = 1080.f;
 
 		float getAspectRatio() const;
 	};

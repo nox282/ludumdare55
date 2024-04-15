@@ -1,0 +1,5 @@
+{
+    "name": "Enemy_Skull_01",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/Sprites/Skull/Enemy_Skull_01.png"
+}

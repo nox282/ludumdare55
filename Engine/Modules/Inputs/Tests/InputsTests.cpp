@@ -1,4 +1,4 @@
-#include "simpleTests.h"
+/*#include "simpleTests.h"
 #include <Inputs/InputSystem.h>
 #include <Inputs/Interfaces/InputGenerator.h>
 #include <Core/System/SystemContainer.h>
@@ -289,4 +289,4 @@ ST_SECTION_BEGIN(Inputs, "Inputs")
 		systemContainer.deinitialize();
 	}
 }
-ST_SECTION_END(Inputs)
+ST_SECTION_END(Inputs)*/

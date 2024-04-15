@@ -1,0 +1,5 @@
+{
+    "name": "Character_Nox_Idle",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/Sprites/Nox/Character_Nox_Idle.png"
+}

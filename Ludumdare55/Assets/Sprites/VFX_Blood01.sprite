@@ -1,0 +1,5 @@
+{
+    "name": "VFX_Blood01",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/VFX/VFX_Blood01.png"
+}

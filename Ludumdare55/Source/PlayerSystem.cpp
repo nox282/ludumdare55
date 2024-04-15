@@ -12,10 +12,20 @@
 #include <CollisionSystem.h>
 
 #include <Minion/MovementSystem.h>
+#include <Minion/AggroSystem.h>
+
+#include <Attack/AttackSystem.h>
+#include <Attack/HealthSystem.h>
+#include <Attack/HealthComponent.h>
+
+#include <FactionComponent.h>
+#include <SpatialGridSystem.h>
+#include <CollisionSystem.h>
 
 using namespace Mani;
 
 EntityId PlayerSystem::PLAYER_ENTITY_ID = Mani::INVALID_ID;
+const uint8_t PlayerSystem::MINION_CAP = 50;
 
 void PlayerSystem::onInitialize(EntityRegistry& registry, SystemContainer& systemContainer)
 {
@@ -27,22 +37,40 @@ void PlayerSystem::onInitialize(EntityRegistry& registry, SystemContainer& syste
 	std::shared_ptr<AssetSystem> assetSystem = systemContainer.initializeDependency<AssetSystem>().lock();
 
 	{
+		const float PLAYER_RADIUS = 4.f;
+
 		// player entity
 		PLAYER_ENTITY_ID = registry.create();
 
 		SpriteComponent* spriteComponent = registry.addComponent<SpriteComponent>(PLAYER_ENTITY_ID);
-		spriteComponent->sprite = assetSystem->loadJsonAsset<Sprite>("Ludumdare55/Assets/Sprites/Main_Character.sprite");
+		spriteComponent->sprite = assetSystem->loadJsonAsset<Sprite>("Ludumdare55/Assets/Sprites/Character_Nox_Idle.sprite");
 
 		Transform* transform = registry.addComponent<Transform>(PLAYER_ENTITY_ID);
 		transform->position = glm::vec3(0.f, 1.f, 0.f);
-		transform->scale = glm::vec3(-5.0f, 5.f, -5.0f);
+		transform->scale = glm::vec3(5.0f, 5.0f, 5.0f);
 
 		registry.addComponent<PlayerComponent>(PLAYER_ENTITY_ID);
 		registry.addComponent<AvoidanceSourceComponent>(PLAYER_ENTITY_ID);
+
 		SphereCollisionComponent* sphereCollision = registry.addComponent<SphereCollisionComponent>(PLAYER_ENTITY_ID);
-		sphereCollision->radius = 4.f;
-		sphereCollision->centerOffset = glm::vec3(-3.0f, 0.f, -3.0f);
+		sphereCollision->radius = 3.0f;
+		sphereCollision->centerOffset = glm::vec3(1.0f, 0.f, 1.f);
 		sphereCollision->priotity = UINT8_MAX;
+
+		FactionComponent* factionComponent = registry.addComponent<FactionComponent>(PLAYER_ENTITY_ID);
+		factionComponent->factionOwnerId = PLAYER_ENTITY_ID;
+
+		AttackComponent* attackComponent = registry.addComponent<AttackComponent>(PLAYER_ENTITY_ID);
+		attackComponent->damage = 15.f;
+		attackComponent->attackRange = 7.5f;
+		attackComponent->attackCooldown = 1.f;
+
+		registry.addComponent<HurtComponent>(PLAYER_ENTITY_ID);
+		HealthComponent* healthComponent = registry.addComponent<HealthComponent>(PLAYER_ENTITY_ID);
+		healthComponent->health = 300.f;
+
+		SpatialGridClientComponent* spatialGridClient = registry.addComponent<SpatialGridClientComponent>(PLAYER_ENTITY_ID);
+		spatialGridClient->boxExtents = glm::vec2(PLAYER_RADIUS, PLAYER_RADIUS);
 	}
 }
 
@@ -73,6 +101,8 @@ void PlayerSystem::tick(float deltaTime, EntityRegistry& registry)
 	
 	PlayerComponent* player = registry.getComponent<PlayerComponent>(PLAYER_ENTITY_ID);
 	Transform* playerTransform = registry.getComponent<Transform>(PLAYER_ENTITY_ID);
-
-	playerTransform->position += glm::normalize(input) * player->speed * deltaTime;
+	if (player != nullptr && playerTransform != nullptr)
+	{
+		playerTransform->position += glm::normalize(input) * player->speed * deltaTime;
+	}
 }

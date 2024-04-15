@@ -9,14 +9,6 @@
 #include <OpenGL/Render/OpenGLRenderSystem.h>
 
 #include <GameSystem.h>
-#include <PlayerSystem.h>
-#include <PlayerCameraSystem.h>
-#include <CollisionSystem.h>
-
-#include <Minion/MovementSystem.h>
-#include <Minion/MinionSpawnSystem.h>
-#include <Minion/AIBehaviorSystem.h>
-#include <Minion/AggroSystem.h>
 
 using namespace Mani;
 
@@ -31,13 +23,6 @@ int main(int argc, char** argv)
 	
 	SystemContainer& worldSystemContainer = world->getSystemContainer();
 	worldSystemContainer.createSystem<OpenGLRenderSystem>()
-						.createSystem<PlayerSystem>()
-						.createSystem<PlayerCameraSystem>()
-						.createSystem<AIBehaviorSystem>()
-						.createSystem<MovementSystem>()
-						.createSystem<MinionSpawnSystem>()
-						.createSystem<CollisionSystem>()
-						.createSystem<AggroSystem>()
 						.createSystem<GameSystem>();
 
 	app.run();

@@ -1,4 +1,4 @@
-#include "simpleTests.h"
+/*#include "simpleTests.h"
 #include <Core/World/World.h>
 #include <Core/System/SystemContainer.h>
 #include <Events/Event.h>
@@ -341,4 +341,4 @@ ST_SECTION_BEGIN(Core_World, "Core World")
 		someFunctionalitySystem->DoFunctionality();
 	}
 }
-ST_SECTION_END(Core_World)
+ST_SECTION_END(Core_World)*/

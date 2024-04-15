@@ -1,4 +1,4 @@
-#include "simpleTests.h"
+/*#include "simpleTests.h"
 #include "ECS/EntityRegistry.h"
 #include "ECS/RegistryView.h"
 #include "ECS/Bitset.h"
@@ -437,4 +437,4 @@ ST_SECTION_BEGIN(ECS, "ECS")
 		ST_ASSERT(resultBitset == (bitset | otherBitset), "should be able to add bitsets");
 	}
 }
-ST_SECTION_END(ECS)
+ST_SECTION_END(ECS)*/

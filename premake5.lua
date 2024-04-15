@@ -12,7 +12,6 @@ configurations { "Debug", "Release", "Distribution" }
     targetdir ("bin/" .. outputdir)
     objdir ("bin-int/" .. outputdir)
 
-    
     --glm
     includedirs { thirdpartiesdir .. "/glm" }
     defines { "GLM_ENABLE_EXPERIMENTAL" }
