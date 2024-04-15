@@ -22,6 +22,9 @@
 #include <SpatialGridSystem.h>
 #include <CollisionSystem.h>
 
+#include <UI/HealthbarSystem.h>
+#include <ShadowSystem.h>
+
 using namespace Mani;
 
 EntityId PlayerSystem::PLAYER_ENTITY_ID = Mani::INVALID_ID;
@@ -68,10 +71,17 @@ void PlayerSystem::onInitialize(EntityRegistry& registry, SystemContainer& syste
 		registry.addComponent<HurtComponent>(PLAYER_ENTITY_ID);
 		HealthComponent* healthComponent = registry.addComponent<HealthComponent>(PLAYER_ENTITY_ID);
 		healthComponent->health = 300.f;
+		healthComponent->maxHealth = 300.f;
 
 		SpatialGridClientComponent* spatialGridClient = registry.addComponent<SpatialGridClientComponent>(PLAYER_ENTITY_ID);
 		spatialGridClient->boxExtents = glm::vec2(PLAYER_RADIUS, PLAYER_RADIUS);
 	}
+
+	std::shared_ptr<HealthbarSystem> healthbarSystem = systemContainer.initializeDependency<HealthbarSystem>().lock();
+	healthbarSystem->spawnHealthbar(registry, PLAYER_ENTITY_ID);
+
+	std::shared_ptr<ShadowSystem> shadowSystem = systemContainer.initializeDependency<ShadowSystem>().lock();
+	shadowSystem->spawnShadow(registry, PLAYER_ENTITY_ID);
 }
 
 void PlayerSystem::onDeinitialize(EntityRegistry& registry)

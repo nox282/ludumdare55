@@ -1,0 +1,5 @@
+{
+    "name": "shadow",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/shadow.png"
+}

@@ -7,6 +7,12 @@
 
 namespace Mani
 {
+	enum class ETextureMode : uint8_t
+	{
+		Stretch = 0,
+
+	};
+
 	struct MeshComponent
 	{
 		std::shared_ptr<Mesh> mesh;

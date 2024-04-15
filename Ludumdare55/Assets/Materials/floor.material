@@ -8,7 +8,7 @@
         "w": 0.0
     },
     "shaderPath": "Engine/Assets/Shaders/baseLit.shader",
-    "diffusePath": "Ludumdare55/Assets/Textures/floor.png",
-    "specularPath": "Ludumdare55/Assets/Textures/floor.png",
+    "diffusePath": "Ludumdare55/Assets/Textures/Sprites/Background/Map_Tile_1.png",
+    "specularPath": "Ludumdare55/Assets/Textures/Sprites/Background/Map_Tile_1.png",
     "shininess": 32.0
 }

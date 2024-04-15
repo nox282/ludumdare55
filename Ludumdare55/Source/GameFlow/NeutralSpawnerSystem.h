@@ -12,7 +12,7 @@ struct SpawnSettings
 	// float spawnRadius = 75.f;
 	// float maxSpawnRadius = 75.f;
 
-	uint32_t spawnWaveCount = 2.f;
+	uint32_t spawnWaveCount = 2;
 	uint32_t maxSpawnWaveCount = 25;
 
 	uint32_t maxEntity = 50;

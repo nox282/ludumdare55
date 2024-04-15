@@ -70,3 +70,8 @@ project "Ludumdare55"
 
     includedirs { moduledir .. "/**", "%{prj.name}/Source" }
 
+    -- glew
+    includedirs { thirdpartiesdir .. "/glew-2.2.0/include" }
+    libdirs { thirdpartiesdir .. "/glew-2.2.0/lib/Release/x64/" }
+    links { "glew32s" }
+

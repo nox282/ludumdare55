@@ -21,6 +21,7 @@
 
 #include <FactionComponent.h>
 #include <SpatialGridSystem.h>
+#include <ShadowSystem.h>
 
 using namespace Mani;
 
@@ -28,6 +29,7 @@ void MinionSpawnSystem::onInitialize(EntityRegistry& registry, SystemContainer& 
 {
 	m_assetSystem = systemContainer.initializeDependency<AssetSystem>();
 	m_deathSystem = systemContainer.initializeDependency<DeathSystem>();
+	m_shadowSystem = systemContainer.initializeDependency<ShadowSystem>();
 	std::shared_ptr<DeathSystem> deathSystem = m_deathSystem.lock();
 
 	onMinionDestroyedHandle = deathSystem->onBeforeMinionDestroyed.subscribe(std::bind_front(&MinionSpawnSystem::onBeforeMinionDestroyed, this));
@@ -86,6 +88,7 @@ EntityId MinionSpawnSystem::spawnMinion(EntityRegistry& registry, const MinionTe
 
 	HealthComponent* healthComponent = registry.addComponent<HealthComponent>(minionEntityId);
 	healthComponent->health = minionTemplate.health.health;
+	healthComponent->maxHealth = minionTemplate.health.health;
 
 	registry.addComponent<HurtComponent>(minionEntityId);
 
@@ -94,6 +97,7 @@ EntityId MinionSpawnSystem::spawnMinion(EntityRegistry& registry, const MinionTe
 
 	SpatialGridClientComponent* spatialGridClient = registry.addComponent<SpatialGridClientComponent>(minionEntityId);
 	spatialGridClient->boxExtents = glm::vec2(minionTemplate.collision.radius);
+
 	return minionEntityId;
 }
 

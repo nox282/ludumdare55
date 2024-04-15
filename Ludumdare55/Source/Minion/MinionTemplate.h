@@ -43,9 +43,9 @@ public:
 						"Ludumdare55/Assets/Sprites/Minion_Eye_01.sprite",
 						HealthComponent(25.f),
 						AttackComponent(
-							5.f, // attackRange
+							6.f, // attackRange
 							5.f, // damage
-							5.f, // attackCooldown
+							2.f, // attackCooldown
 							FLT_MAX // attackCooldownElapsed
 						),
 						SphereCollisionComponent(
@@ -61,9 +61,9 @@ public:
 						"Ludumdare55/Assets/Sprites/Minion_Skull.sprite",
 						HealthComponent(25.f),
 						AttackComponent(
-							5.f, // attackRange
+							6.f, // attackRange
 							5.f, // damage
-							5.f, // attackCooldown
+							2.f, // attackCooldown
 							FLT_MAX // attackCooldownElapsed
 						),
 						SphereCollisionComponent(
@@ -79,9 +79,9 @@ public:
 						"Ludumdare55/Assets/Sprites/Minion_Fire_01.sprite",
 						HealthComponent(25.f),
 						AttackComponent(
-							5.f, // attackRange
-							5.f, // damage
-							5.f, // attackCooldown
+							6.f, // attackRange
+							10.f, // damage
+							2.f, // attackCooldown
 							FLT_MAX // attackCooldownElapsed
 						),
 						SphereCollisionComponent(
@@ -97,9 +97,9 @@ public:
 						"Ludumdare55/Assets/Sprites/Minion_Hand.sprite",
 						HealthComponent(25.f),
 						AttackComponent(
-							5.f, // attackRange
+							6.f, // attackRange
 							5.f, // damage
-							5.f, // attackCooldown
+							2.f, // attackCooldown
 							FLT_MAX // attackCooldownElapsed
 						),
 						SphereCollisionComponent(

@@ -25,6 +25,7 @@ protected:
 private:
 	std::weak_ptr<Mani::AssetSystem> m_assetSystem;
 	std::weak_ptr<class DeathSystem> m_deathSystem;
+	std::weak_ptr<class ShadowSystem> m_shadowSystem;
 
 	uint8_t m_playerMinion = 0;
 

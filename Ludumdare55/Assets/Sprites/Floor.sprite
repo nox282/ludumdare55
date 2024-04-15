@@ -1,0 +1,5 @@
+{
+    "name": "Map_Tile_1",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/Sprites/Background/Map_Tile_1.png"
+}
