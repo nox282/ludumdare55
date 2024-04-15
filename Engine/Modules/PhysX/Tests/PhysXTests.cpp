@@ -1,4 +1,4 @@
-#include "simpleTests.h"
+/*#include "simpleTests.h"
 
 extern "C" __declspec(dllexport) void runTests()
 {
@@ -9,3 +9,4 @@ ST_SECTION_BEGIN(PhysX, "PhysX")
 {
 }
 ST_SECTION_END(PhysX)
+*/
