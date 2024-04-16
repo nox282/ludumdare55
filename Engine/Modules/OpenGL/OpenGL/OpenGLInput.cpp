@@ -165,4 +165,24 @@ void OpenGLInput::onInputSystemTick(float deltaTime, EntityRegistry& registry)
     {
         m_inputBuffer.push_back(ButtonControl{ "F7", false });
     }
+
+    // Escape
+    if (glfwGetKey(context.window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+        m_inputBuffer.push_back(ButtonControl{ "Escape", true });
+    }
+    if (glfwGetKey(context.window, GLFW_KEY_ESCAPE) == GLFW_RELEASE)
+    {
+        m_inputBuffer.push_back(ButtonControl{ "Escape", false });
+    }
+
+    // Space
+    if (glfwGetKey(context.window, GLFW_KEY_SPACE) == GLFW_PRESS)
+    {
+        m_inputBuffer.push_back(ButtonControl{ "Space", true });
+    }
+    if (glfwGetKey(context.window, GLFW_KEY_SPACE) == GLFW_RELEASE)
+    {
+        m_inputBuffer.push_back(ButtonControl{ "Space", false });
+    }
 }

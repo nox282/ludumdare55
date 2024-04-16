@@ -1,0 +1,5 @@
+{
+    "name": "Keys_Spacebar",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/Sprites/UI/Keys_Spacebar.png"
+}

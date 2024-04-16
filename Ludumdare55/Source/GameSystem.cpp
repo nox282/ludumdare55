@@ -29,6 +29,8 @@
 #include <SpatialGridSystem.h>
 
 #include <FloorSystem.h>
+#include <GameFlow/GameTimeSystem.h>
+#include <UI/GameTimeBar.h>
 
 using namespace Mani;
 
@@ -79,19 +81,6 @@ void GameSystem::onInitialize(EntityRegistry& registry, SystemContainer& systemC
 		light->direction = glm::normalize(-transform->position);
 	}
 
-	//{
-	//	// floor
-	//	const EntityId floorEntityId = registry.create();
-
-	//	Transform* transform = registry.addComponent<Transform>(floorEntityId);
-	//	transform->scale = glm::vec3(500.f, .2f, 500.f);
-
-
-	//	MeshComponent* meshComponent = registry.addComponent<MeshComponent>(floorEntityId);
-	//	meshComponent->mesh = assetSystem->loadJsonAsset<Mesh>("Ludumdare55/Assets/Meshes/Cube.mesh");
-	//	meshComponent->material = assetSystem->loadJsonAsset<Material>("Ludumdare55/Assets/Materials/floor.material");
-	//}
-
 	systemContainer.createSystem<PlayerSystem>()
 		.createSystem<PlayerCameraSystem>()
 		.createSystem<FloorSystem>()
@@ -104,7 +93,9 @@ void GameSystem::onInitialize(EntityRegistry& registry, SystemContainer& systemC
 		.createSystem<HealthSystem>()
 		.createSystem<ColorSystem>()
 		.createSystem<NeutralSpawnerSystem>()
-		.createSystem<SpatialGridSystem>();
+		.createSystem<SpatialGridSystem>()
+		.createSystem<GameTimeSystem>()
+		.createSystem<GameTimeBarSystem>();
 }
 
 void GameSystem::onDeinitialize(EntityRegistry& registry)

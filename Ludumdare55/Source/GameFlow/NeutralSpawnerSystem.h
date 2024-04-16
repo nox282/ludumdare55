@@ -4,15 +4,15 @@
 
 struct SpawnSettings
 {
-	float spawnCadence = 10.f;
-	float minSpawnCadence = 5.f;
+	float spawnCadence = 6.f;
+	float minSpawnCadence = 2.f;
 	
-	float spawnRadius = 150.f;
+	float spawnRadius = 175.f;
 	float maxSpawnRadius = 250.f;
 	// float spawnRadius = 75.f;
 	// float maxSpawnRadius = 75.f;
 
-	uint32_t spawnWaveCount = 2;
+	uint32_t spawnWaveCount = 5;
 	uint32_t maxSpawnWaveCount = 25;
 
 	uint32_t maxEntity = 50;
@@ -21,7 +21,7 @@ struct SpawnSettings
 	uint32_t initialEntityCount = 10;
 	//uint32_t initialEntityCount = 50;
 
-	float incrementCadence = 30.f;
+	float incrementCadence = 15.f;
 };
 
 struct SpawnSettingsIncrements

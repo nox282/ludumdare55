@@ -45,8 +45,6 @@ namespace Mani
 		virtual std::string_view getName() const override;
 		virtual bool shouldTick(EntityRegistry& registry) const override;
 
-		virtual void onInitialize(EntityRegistry& registry, SystemContainer& systemContainer) override;
-		
 		virtual void tick(float deltaTime, EntityRegistry& registry) override;
 
 		uint32_t createInputUser(const std::vector<InputAction>& actions, const std::unordered_map<std::string, std::vector<std::string>>& bindings);
@@ -62,6 +60,10 @@ namespace Mani
 		bool removeBinding(uint32_t userId, const std::string& action, const std::string control);
 
 		ActionEvent onActionEvent;
+	protected:
+		virtual void onInitialize(EntityRegistry& registry, SystemContainer& systemContainer) override;
+		virtual void onDeinitialize(EntityRegistry& registry) override;
+
 	private:
 		std::shared_ptr<InputUser> getInputUser(uint32_t userId) const;
 		std::vector<std::shared_ptr<InputUser>> m_users;

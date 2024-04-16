@@ -29,13 +29,13 @@ void FloorSystem::onInitialize(Mani::EntityRegistry& registry, Mani::SystemConta
 	std::vector<float> vertices =
 	{
 		//    vertex			// texture
-		-500.0f, 0.0f, 500.0f,		0.0f, 11.f,
-		500.0f, 0.0f, -500.0f,		11.f, 0.0f,
+		-500.0f, 0.0f, 500.0f,		0.0f, 20.f,
+		500.0f, 0.0f, -500.0f,		20.f, 0.0f,
 		-500.0f, 0.0f, -500.0f,		0.0f, 0.0f,
 
-		-500.0f, 0.0f, 500.0f,		0.0f, 11.0f,
-		500.0f, 0.0f, 500.0f,		11.f, 11.0f,
-		500.0f, 0.0f, -500.0f,		11.f, 0.0f,
+		-500.0f, 0.0f, 500.0f,		0.0f, 20.0f,
+		500.0f, 0.0f, 500.0f,		20.f, 20.0f,
+		500.0f, 0.0f, -500.0f,		20.f, 0.0f,
 	};
 
 	std::vector<unsigned int> indices = { 0, 1, 2, 3, 4, 5 };

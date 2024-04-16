@@ -3,6 +3,8 @@
 #include <Attack/HealthComponent.h>
 #include <Minion/MinionComponent.h>
 
+#include <PlayerSystem.h>
+
 using namespace Mani;
 
 void DeathSystem::tick(float deltaTime, Mani::EntityRegistry& registry)
@@ -23,6 +25,11 @@ void DeathSystem::tick(float deltaTime, Mani::EntityRegistry& registry)
 		if (registry.hasComponent<MinionComponent>(entityId))
 		{
 			onBeforeMinionDestroyed.broadcast(registry, entityId);
+		}
+
+		if (registry.hasComponent<PlayerComponent>(entityId))
+		{
+			onBeforePlayerDestroyed.broadcast(registry, entityId);
 		}
 
 		registry.destroy(entityId);

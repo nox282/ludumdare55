@@ -1,0 +1,5 @@
+{
+    "name": "Defeat",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/Sprites/UI/Defeat.png"
+}

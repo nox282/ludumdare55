@@ -1,0 +1,5 @@
+{
+    "name": "Victory",
+    "shaderPath": "Engine/Assets/Shaders/sprite.shader",
+    "spritePath": "Ludumdare55/Assets/Textures/Sprites/UI/Victory.png"
+}

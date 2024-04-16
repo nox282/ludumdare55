@@ -20,10 +20,24 @@ void InputSystem::onInitialize(EntityRegistry& registry, SystemContainer& system
 	createInputUser({}, {});
 }
 
+void InputSystem::onDeinitialize(EntityRegistry& registry)
+{
+	const uint32_t userCount = static_cast<uint32_t>(m_users.size());
+	for (uint32_t i = 0; i < userCount; i++)
+	{
+		destroyInputUser(i);
+	}
+}
+
 void InputSystem::tick(float deltaTime, EntityRegistry& registry)
 {
 	for (const auto& user : m_users)
 	{
+		if (user == nullptr)
+		{
+			continue;
+		}
+
 		std::weak_ptr weakGenerator = m_generators[user->userId];
 		if (weakGenerator.expired())
 		{

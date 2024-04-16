@@ -41,10 +41,10 @@ public:
 				templates["Minion_Eye"] =
 					MinionTemplate(
 						"Ludumdare55/Assets/Sprites/Minion_Eye_01.sprite",
-						HealthComponent(25.f),
+						HealthComponent(40.f),
 						AttackComponent(
 							6.f, // attackRange
-							5.f, // damage
+							6.f, // damage
 							2.f, // attackCooldown
 							FLT_MAX // attackCooldownElapsed
 						),
@@ -59,10 +59,10 @@ public:
 				templates["Minion_Skull"] =
 					MinionTemplate(
 						"Ludumdare55/Assets/Sprites/Minion_Skull.sprite",
-						HealthComponent(25.f),
+						HealthComponent(40.f),
 						AttackComponent(
 							6.f, // attackRange
-							5.f, // damage
+							6.f, // damage
 							2.f, // attackCooldown
 							FLT_MAX // attackCooldownElapsed
 						),
@@ -77,10 +77,10 @@ public:
 				templates["Minion_Fire"] =
 					MinionTemplate(
 						"Ludumdare55/Assets/Sprites/Minion_Fire_01.sprite",
-						HealthComponent(25.f),
+						HealthComponent(60.f),
 						AttackComponent(
 							6.f, // attackRange
-							10.f, // damage
+							15.f, // damage
 							2.f, // attackCooldown
 							FLT_MAX // attackCooldownElapsed
 						),
@@ -95,10 +95,10 @@ public:
 				templates["Minion_Hand"] =
 					MinionTemplate(
 						"Ludumdare55/Assets/Sprites/Minion_Hand.sprite",
-						HealthComponent(25.f),
+						HealthComponent(40.f),
 						AttackComponent(
 							6.f, // attackRange
-							5.f, // damage
+							6.f, // damage
 							2.f, // attackCooldown
 							FLT_MAX // attackCooldownElapsed
 						),
